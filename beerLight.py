@@ -4,36 +4,31 @@ import requests
 import bs4
 
 red = 29
-blu = 33
+yel = 33
 grn = 31
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
 GPIO.setup(red, GPIO.OUT)
-GPIO.setup(grn, GPIO.OUT) 
-GPIO.setup(blu, GPIO.OUT)
+GPIO.setup(yel, GPIO.OUT)
 
 GPIO.output(red, 0)
-GPIO.output(grn, 0)
-GPIO.output(blu, 0)
-
-#file = open('scrape.txt')
-#scrape = file.read()
+GPIO.output(yel, 0)
 
 def go():
 	GPIO.output(grn, 1)
 
 def caution(): 
-	GPIO.output(blu, 1)
-
+	GPIO.output(yel, 1)
+	GPIO.output(red, 0)
 def stop(): 
 	GPIO.output(red, 1)
+	GPIO.output(yel, 0)
 
 def disable():
 	GPIO.output(red, 0)
-	GPIO.output(blu, 0)
-	GPIO.output(grn, 0)
+	GPIO.output(yel, 0)
 
 loop = True
 while loop:
@@ -41,9 +36,7 @@ while loop:
 	result = bs4.BeautifulSoup(html.text, 'html.parser')
 	scrape = result.findAll('b')
 	scrape = str(scrape[0])
-	if scrape == "<b>GO</b>":
-		go()
-	elif scrape == "<b>CAUTION</b>":
+	if scrape == "<b>CAUTION</b>":
 		caution()
 	elif scrape == "<b>STOP</b>": 
 		stop()

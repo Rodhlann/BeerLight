@@ -1,13 +1,11 @@
 var https = require('https'); 
-var fs = require('fs'); 
 
-var active = "none";
-
-var options = { 
-	hostname: 'beer30.sparcedge.com'	
-};
+var active = "";
 
 function getStatus() {
+	var options = { 
+		hostname: 'beer30.sparcedge.com'	
+	};
 	https.get(options, function(res) { 
 		var body = '';
 		res.on('data', function(chunk) {
@@ -30,26 +28,13 @@ function getStatus() {
 		});
 	}).on('error', function(e) {
 		console.log(e);
-		active = "none";  
+		active = "";  
 	}); 
-}
-
-function writeStatus() { 
-	fs.writeFile("/home/pepper/pi/scrape.txt", active, function(err) {
-		if(err) {
-			return console.log(err); 
-		}
-	});
 }
 
 var count = 0; 
 function init() {
 	getStatus();
-	if(count > 0) {
-		writeStatus();
-		count = 1;  	
-	}
-	count ++; 
 	setTimeout(init, 1000); 
 }
 

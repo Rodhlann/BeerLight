@@ -40,13 +40,15 @@ function getStatus() {
 			else {
 				red.unexport();
 				yel.unexport();
-				return 0;  
+				console.log("ERROR: Unable to read proper BeerLight status");
+				process.exit(1);   
 			}
 		});
 	}).on('error', function(e) {
 		console.log(e);
 		red.unexport();
-		yel.unexport(); 
+		yel.unexport();
+		process.exit(1);  
 	}); 
 }
 

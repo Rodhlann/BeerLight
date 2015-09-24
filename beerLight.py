@@ -36,7 +36,9 @@ while loop:
 	result = bs4.BeautifulSoup(html.text, 'html.parser')
 	scrape = result.findAll('b')
 	scrape = str(scrape[0])
-	if scrape == "<b>CAUTION</b>":
+	if scrape == "<b>GO</b>":
+		caution()
+	elif scrape == "<b>CAUTION</b>":
 		caution()
 	elif scrape == "<b>STOP</b>": 
 		stop()

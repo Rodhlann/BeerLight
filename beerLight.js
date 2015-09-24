@@ -3,13 +3,13 @@ var gpio = require('gpio');
 
 var active = "";
 
-var red = gpio.export(4, {
+var red = gpio.export(29, {
    direction: "out",
    ready: function() {
    }
 });
 
-var grn = gpio.export(4, {
+var yel = gpio.export(33, {
    direction: "out",
    ready: function() {
    }
@@ -29,19 +29,28 @@ function getStatus() {
 			var statusArray = status.split(" ");
 			for(i = 0; i < 20; i++) {   
 				if(statusArray[i] == "<b>GO</B>") {
-					active = "on";
+					yel.set(); 
+					red.set(0); 
 				}
 				if(statusArray[i] == "<b>CAUTION</b>") {
-					active = "caution"; 
+					yel.set(); 
+					red.set(0); 
 				}
 				if(statusArray[i] == "<b>STOP</b>") {
-					active = "off";
+					red.set(); 
+					yel.set(0); 
+				}
+				else {
+					red.unexport();
+					yel.unexport(); 
+					break
 				}
 			}
 		});
 	}).on('error', function(e) {
 		console.log(e);
-		active = "";  
+		red.unexport();
+		yel.unexport(); 
 	}); 
 }
 

@@ -1,6 +1,19 @@
 var https = require('https'); 
+var gpio = require('gpio'); 
 
 var active = "";
+
+var red = gpio.export(4, {
+   direction: "out",
+   ready: function() {
+   }
+});
+
+var grn = gpio.export(4, {
+   direction: "out",
+   ready: function() {
+   }
+});
 
 function getStatus() {
 	var options = { 
@@ -15,7 +28,7 @@ function getStatus() {
 			var status = JSON.stringify(body);
 			var statusArray = status.split(" ");
 			for(i = 0; i < 20; i++) {   
-				if(statusArray[i] == "<b>Go</B>") {
+				if(statusArray[i] == "<b>GO</B>") {
 					active = "on";
 				}
 				if(statusArray[i] == "<b>CAUTION</b>") {

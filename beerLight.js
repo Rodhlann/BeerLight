@@ -1,15 +1,13 @@
 var https = require('https'); 
 var gpio = require('gpio'); 
 
-var active = "";
-
-var red = gpio.export(4, {
+var red = gpio.export(5, {
    direction: "out",
    ready: function() {
    }
 });
 
-var grn = gpio.export(4, {
+var yel = gpio.export(13, {
    direction: "out",
    ready: function() {
    }
@@ -27,21 +25,30 @@ function getStatus() {
 		res.on('end', function() {
 			var status = JSON.stringify(body);
 			var statusArray = status.split(" ");
-			for(i = 0; i < 20; i++) {   
-				if(statusArray[i] == "<b>GO</B>") {
-					active = "on";
-				}
-				if(statusArray[i] == "<b>CAUTION</b>") {
-					active = "caution"; 
-				}
-				if(statusArray[i] == "<b>STOP</b>") {
-					active = "off";
-				}
+			if(statusArray[18] == "<b>GO</B>") {
+				yel.set(); 
+				red.set(0); 
+			}
+			if(statusArray[18] == "<b>CAUTION</b>") {
+				yel.set(); 
+				red.set(0); 
+			}
+			if(statusArray[18] == "<b>STOP</b>") {
+				red.set(); 
+				yel.set(0); 
+			}
+			else {
+				red.unexport();
+				yel.unexport();
+				console.log("ERROR: Unable to read proper BeerLight status");
+				process.exit(1);   
 			}
 		});
 	}).on('error', function(e) {
 		console.log(e);
-		active = "";  
+		red.unexport();
+		yel.unexport();
+		process.exit(1);  
 	}); 
 }
 

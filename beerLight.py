@@ -5,7 +5,6 @@ import bs4
 
 red = 29
 yel = 33
-grn = 31
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)

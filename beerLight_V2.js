@@ -15,10 +15,10 @@ function getStatus() {
 			if(status.indexOf("Drink up.") > -1) {
 				console.log("Green"); 
 			}
-			if(status.indexOf("Drinking is allowed but keep it discrete.") > -1) {
+			else if(status.indexOf("Drinking is allowed but keep it discrete.") > -1) {
 				console.log("Yellow"); 
 			}
-			if(status.indexOf("No drinking allowed.") > -1) {
+			else if(status.indexOf("No drinking allowed.") > -1) {
 				console.log("Red"); 
 			}
 			else {
